@@ -27897,9 +27897,6 @@ async function run() {
           )
       )
       .then(
-        (files) => console.log(files) || files,
-      )
-      .then(
         (files) => Promise.all(
           files.filter(
             (file) => file.match(regex)
@@ -27909,6 +27906,9 @@ async function run() {
               file,
             ),
           ).map(
+            (filePath) => console.log(filePath) || filePath,
+          )
+          .map(
             (filePath) => fs.readFile(
               filePath
             ).then(

@@ -27870,12 +27870,12 @@ const xsdValidator = __nccwpck_require__(4397);
 async function run() {
   try {
     const regex = new RegExp(
-      core.getInput('regex') || '^.+\.(([xX][mM][lL]))$' || 0,
+      core.getInput('regex') || '.',
     )
     const directory = core.getInput('path') || '.'
     
     fs.readFile(
-      core.getInput('xsd') || 'test.xsd',
+      core.getInput('xsd'),
     )
     .then(
       (file) => file.toString(),

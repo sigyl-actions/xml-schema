@@ -1,20 +1,19 @@
-import { promises as fs } from 'fs';
-import path from 'path'
+const { promises: fs } = require('fs');
+const path = require('path')
 
-import core from '@actions/core';
-import github from '@actions/github';
-import xsdValidator from 'xsd-validator';
+const core = require('@actions/core');
+const xsdValidator = require('xsd-validator');
 
 
 async function run() {
   try {
     const regex = new RegExp(
-      core.getInput('regex') || '^.+\.(([xX][mM][lL]))$' || '.',
+      core.getInput('regex') || '.',
     )
     const directory = core.getInput('path') || '.'
     
     fs.readFile(
-      core.getInput('xsd') || 'test.xsd',
+      core.getInput('xsd'),
     )
     .then(
       (file) => file.toString(),

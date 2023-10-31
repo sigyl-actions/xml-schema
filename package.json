@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "verify xml files with an xsd schema.",
   "main": "main.js",
-  "type": "module",
   "scripts": {
     "lint": "eslint main.js",
     "package": "ncc build main.js -o dist",

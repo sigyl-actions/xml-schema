@@ -6,6 +6,8 @@ branding:
   icon: package
   color: green
 inputs:
+  schema_path:
+    description: full path to schema - for xsd imports
   folder:
     description: folder for xml files
   regex:

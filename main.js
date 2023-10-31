@@ -7,7 +7,8 @@ const xsdValidator = require('xsd-validator');
 
 async function run() {
   try {
-    console.log(__dirname)
+    console.log(__dirname);
+    console.log(core.getInput('schema_path'));
     const regex = new RegExp(
       core.getInput('regex') || '^.+\.(([xX][mM][lL]))$' || '.',
     )

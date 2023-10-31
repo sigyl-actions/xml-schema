@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Paul D'Mura (Rockwell Automation) -->
+<xsd:schema targetNamespace="urn:Rockwell/MasterRecipe" xmlns="urn:Rockwell/MasterRecipe" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:am="urn:Rockwell/AreaModel" elementFormDefault="qualified">
+	<xsd:import namespace="urn:Rockwell/AreaModel" schemaLocation="./test.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>Master Recipe Schema - Copyright 2020</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>The length limits imposed on string types are in accordance with the field limits imposed on GUI applications and database schemas.</xsd:documentation>
+	</xsd:annotation>
+	<xsd:simpleType name="AreaModelName">
+		<xsd:annotation>
+			<xsd:documentation>AreaModelName limits the path name of the area model to the specified length.  This type is not nullable.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AssociationName">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="132"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AttributeName">
+		<xsd:annotation>
+			<xsd:documentation>AttributeName limits the name of an attribute to the specified length and a string beginning with an uppercase letter followed by a mixture of digits, uppercase letters, and underscores.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="132"/>
+			<xsd:pattern value="[A-Z][0-9A-Z_]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AuthorName">
+		<xsd:annotation>
+			<xsd:documentation>AuthorName limits the name of an author to the specified length.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BatchSize">
+		<xsd:annotation>
+			<xsd:documentation>BatchSize limits the fields which describe the size of a batch to the specified length.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BeingEditedBy">
+		<xsd:annotation>
+			<xsd:documentation>BeingEditedBy limits the name of the author to the specified length.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BindingEnm">
+		<xsd:annotation>
+			<xsd:documentation>The Binding Enumeration describes how or when a class based resource is bound to an instance of the resource.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Static"/>
+			<xsd:enumeration value="FirstAvailable"/>
+			<xsd:enumeration value="Prompt"/>
+			<xsd:enumeration value="BatchCreation"/>
+			<xsd:enumeration value="OperatorChoice"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+  <xsd:simpleType name="MaterialBindingEnm">
+    <xsd:annotation>
+      <xsd:documentation>The Material Binding Enumeration describes the type of material binding used to bind to an instance of the resource.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ByInventory"/>
+      <xsd:enumeration value="ByConfig"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CommentName">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="2"/>
+			<xsd:maxLength value="10"/>
+			<xsd:pattern value="[C][0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ConditionalExpression">
+		<xsd:annotation>
+			<xsd:documentation>ConditionalExpression limits a transition's conditional expression to the specified length.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="1023"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DateTime">
+		<xsd:annotation>
+			<xsd:documentation>DateTime specifies the format of the date and time data type.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Description">
+		<xsd:annotation>
+			<xsd:documentation>Description limits the description of a recipe to the specified length.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InitialStepName">
+		<xsd:annotation>
+			<xsd:documentation>There is one and only one Initial Step in the recipe and it must have this name.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="INITIALSTEP:1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MaterialRequirementName">
+		<xsd:annotation>
+			<xsd:documentation>MaterialRequirementName limits a Material Requirement Name to the specified length and pattern </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LabelID">
+		<xsd:annotation>
+			<xsd:documentation>The Label limits the length of a Label to the specified length and pattern.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LotID">
+		<xsd:annotation>
+			<xsd:documentation>Lot limits the length of a Lot Name to the specified length and pattern </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PhaseBindEnm">
+		<xsd:annotation>
+			<xsd:documentation>PhaseBindEnm - Binding methods for phases</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Standard"/>
+			<xsd:enumeration value="MBRAuto"/>
+			<xsd:enumeration value="MBRPrompt"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PhaseLinkGroupName">
+		<xsd:annotation>
+			<xsd:documentation>PhaseLinkGroupName limits the name of the group of PhaseLinks to the specified length and a string beginning with an uppercase letter followed by a mixture of digits, uppercase letters, and underscores..</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="64"/>
+			<xsd:pattern value="[A-Z][0-9A-Z_]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ProductCode">
+		<xsd:annotation>
+			<xsd:documentation>ProductCode is a unique identification code for the given recipe  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ProductIDName">
+		<xsd:annotation>
+			<xsd:documentation>ProductIDName limits the description of a product to the specified length.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ProductUnits">
+		<xsd:annotation>
+			<xsd:documentation>ProductUnits describes the unit of measurement for the batch output.  The length of the string is limited to the specified length.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RecipeElementID">
+		<xsd:annotation>
+			<xsd:documentation>RecipeElementID limits the name of a RecipeElement to the specified length.  Not nullable.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="128"/>
+			<xsd:pattern value="[A-Z][0-9A-Z_]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RecipeEnm">
+		<xsd:annotation>
+			<xsd:documentation>Recipe Type Enumeration - describes the recipe's type</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Procedure"/>
+			<xsd:enumeration value="UnitProcedure"/>
+			<xsd:enumeration value="Operation"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ReportValue">
+		<xsd:annotation>
+			<xsd:documentation>ReportValue limits a report's value to the specified length.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:float"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="StepName">
+		<xsd:annotation>
+			<xsd:documentation>StepName limits the name of a step to the specified length and a string beginning with an uppercase letter followed by a mixture of digits, uppercase letters, and underscores and then followed by ":" and a sequence of at most 3 digits.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="3"/>
+			<xsd:maxLength value="132"/>
+			<xsd:pattern value="[A-Z$][0-9A-Z_]*:[0-9]{1,3}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StepRecipeID">
+		<xsd:annotation>
+			<xsd:documentation>StepRecipeID limits the name of a recipe or phase associated with the step to the specified length and a string beginning with an uppercase letter followed by a mixture of digits, uppercase letters, and underscores.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="132"/>
+			<xsd:pattern value="[A-Z$][0-9A-Z_]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="strRecipeParameterName">
+		<xsd:annotation>
+			<xsd:documentation>Use to reference am:strRecipeParameterName - make nillable in future to handle 0 length</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="128"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="strStdName0_128">
+		<xsd:annotation>
+			<xsd:documentation>Use to reference am:strStdName1_128 - make nillable in future to handle 0 length</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="128"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TerminalStepName">
+		<xsd:annotation>
+			<xsd:documentation>There is one and only one Terminal Step in the recipe and it must have this name.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="TERMINALSTEP:1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Time">
+		<xsd:annotation>
+			<xsd:documentation>Time limits the length of a time string to the specified length.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TransitionName">
+		<xsd:annotation>
+			<xsd:documentation>TransitionName limits the name of a transition to the specified length and a string beginning with an uppercase letter followed by a mixture of digits, uppercase letters, and underscores.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="10"/>
+			<xsd:pattern value="[T][0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnitAliasName">
+		<xsd:annotation>
+			<xsd:documentation>UnitAliasName limits the name of a unit alias to the specified length and a string beginning with an uppercase letter followed by a mixture of digits, uppercase letters, and underscores.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="132"/>
+			<xsd:pattern value="[A-Z][0-9A-Z_]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="VerificationEnm">
+		<xsd:annotation>
+			<xsd:documentation>Enumeration of verification policies</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="No_Limits"/>
+			<xsd:enumeration value="High_Low"/>
+			<xsd:enumeration value="HighHigh_LowLow"/>
+			<xsd:enumeration value="HighHighHigh_LowLowLow"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CalculationTypeenum">
+		<xsd:annotation>
+			<xsd:documentation>Calculation types for report parameters</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Absolute"/>
+			<xsd:enumeration value="Percent"/>
+			<xsd:enumeration value="Relative"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Version">
+		<xsd:annotation>
+			<xsd:documentation>Version describes the version of the recipe.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="strAnyChar0_255">
+		<xsd:annotation>
+			<xsd:documentation>Any character string that has a length from 0 to 255</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="0"/>
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="strAnyChar2_1024">
+		<xsd:annotation>
+			<xsd:documentation>Any character string that has a length from 2 to 1024</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="2"/>
+			<xsd:maxLength value="1024"/>
+		</xsd:restriction>
+	</xsd:simpleType>	
+	<xsd:group name="DataTypeValues">
+		<xsd:annotation>
+			<xsd:documentation>The DataTypeValues group defines the elements required for either an integer, string, real, or enumeration data value.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="String" type="xsd:string"/>
+			<xsd:sequence>
+				<xsd:element name="Integer" type="xsd:integer"/>
+				<xsd:element name="EngineeringUnits" type="am:strAnyChar0_128"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element name="Real" type="xsd:float"/>
+				<xsd:element name="EngineeringUnits" type="am:strAnyChar0_128"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element name="EnumerationSet" type="am:strEnumerationSetName"/>
+				<xsd:element name="EnumerationMember" type="am:strStdName1_128"/>
+			</xsd:sequence>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="DownstreamResource">
+		<xsd:annotation>
+			<xsd:documentation>DownstreamResource defines the resources which are required later in the recipe by the current unit.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="am:strStdName1_128">
+				<xsd:annotation>
+					<xsd:documentation>Name of resource which is downstream from the unit.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ElementLink">
+		<xsd:annotation>
+			<xsd:documentation>ElementLink defines the linkage between a step and a transition or between a transition and a step</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element name="FromStep" type="StepName"/>
+				<xsd:element name="ToTransition" type="TransitionName"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element name="FromTransition" type="TransitionName"/>
+				<xsd:element name="ToStep" type="StepName"/>
+			</xsd:sequence>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="FormulaValueLimit">
+		<xsd:annotation>
+			<xsd:documentation>Value pairs that define the range of values specified by the Verification enumeration</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LowLowLowValue" type="strAnyChar0_255"/>
+			<xsd:element name="LowLowValue" type="strAnyChar0_255"/>
+			<xsd:element name="LowValue" type="strAnyChar0_255"/>
+			<xsd:element name="HighValue" type="strAnyChar0_255"/>
+			<xsd:element name="HighHighValue" type="strAnyChar0_255"/>
+			<xsd:element name="HighHighHighValue" type="strAnyChar0_255"/>
+		</xsd:sequence>
+		<xsd:attribute name="Verification" type="VerificationEnm" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="FormulaValue">
+		<xsd:annotation>
+			<xsd:documentation>FormulaValue defines the step's value for the underlying parameter.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:sequence>
+				<xsd:element name="Name" type="am:strRecipeParameterName"/>
+				<xsd:element name="Display" type="xsd:boolean"/>
+				<xsd:choice>
+					<xsd:element name="Defer" type="am:strRecipeParameterName"/>
+					<xsd:element name="Operator">
+						<xsd:complexType/>
+					</xsd:element>
+					<xsd:element name="Value">
+						<xsd:complexType/>
+					</xsd:element>
+				</xsd:choice>
+				<xsd:group ref="DataTypeValues"/>
+			</xsd:sequence>
+			<xsd:element name="FormulaValueLimit" type="FormulaValueLimit" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Header">
+		<xsd:annotation>
+			<xsd:documentation>Header contains fields that describe the recipe.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Abstract" type="Description"/>
+			<xsd:element name="ApprovedBy" type="AuthorName"/>
+			<xsd:element name="AreaModel" type="AreaModelName"/>
+			<xsd:element name="AreaModelDate" type="DateTime" nillable="true"/>
+			<xsd:element name="Author" type="AuthorName"/>
+			<xsd:element name="BeingEditedBy" type="BeingEditedBy"/>
+			<xsd:element name="ClassBased" type="xsd:boolean"/>
+			<xsd:element name="DBSchema" type="xsd:long" nillable="true"/>
+			<xsd:element name="DefaultSize" type="BatchSize"/>
+			<xsd:element name="Description" type="Description"/>
+			<xsd:element name="Duration" type="Time"/>
+			<xsd:element name="LocaleID" type="xsd:long" nillable="true"/>
+			<xsd:element name="MaxSize" type="BatchSize"/>
+			<xsd:element name="MinSize" type="BatchSize"/>
+			<xsd:element name="ProductCode" type="ProductCode"/>
+			<xsd:element name="ProductID" type="ProductIDName"/>
+			<xsd:element name="ProductUnits" type="ProductUnits"/>
+			<xsd:element name="RecipeType" type="RecipeEnm"/>
+			<xsd:element name="Released" type="xsd:long" nillable="true"/>
+			<xsd:element name="ReleaseAsStep" type="xsd:long" nillable="true"/>
+			<xsd:element name="Resource" type="strStdName0_128"/>
+			<xsd:element name="VerificationDate" type="DateTime" nillable="true"/>
+			<xsd:element name="Version" type="Version"/>
+			<xsd:element name="VersionDate" type="DateTime" nillable="true"/>
+			<xsd:element name="Obsoleted" type="xsd:boolean"/>
+			<xsd:element name="NextWIPNumber" type="xsd:long" nillable="false"/>
+			<xsd:element name="VersionDescription" type="strAnyChar0_255"/>
+			<xsd:element name="ParentName" type="ProductIDName"/>
+			<xsd:element name="ParentVersionDescription" type="strAnyChar0_255"/>
+			<xsd:element name="ParentVersionDate" type="DateTime" nillable="true"/>
+			<xsd:element name="ParentVerificationDate" type="DateTime" nillable="true"/>
+			<xsd:element name="ParentAreaModelDate" type="DateTime" nillable="true"/>
+			<xsd:element name="ParentAreaModelName" type="AreaModelName"/>
+			<xsd:element name="SecurityAuthorityIdentifier" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MaterialRequirement">
+		<xsd:annotation>
+			<xsd:documentation>MaterialRequirement defines a step's material requirement.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="MaterialRequirementName"/>
+			<xsd:element name="Lot" type="LotID"/>
+			<xsd:element name="Label" type="LabelID"/>
+			<xsd:element name="PhaseClassName" type="am:strStdName1_128"/>
+		</xsd:sequence>
+		<xsd:attribute name="AddOrDump" type="xsd:double" use="required"/>
+		<xsd:attribute name="PhaseBindType" type="PhaseBindEnm" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="Parameter">
+		<xsd:annotation>
+			<xsd:documentation>Parameter defines the value associated with a Step's parameters. Its  type and range</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="am:strRecipeParameterName"/>
+			<xsd:element name="ERPAlias" type="am:strAnyChar0_128"/>
+			<xsd:element name="PLCReference" type="xsd:nonNegativeInteger" nillable="true"/>
+			<xsd:choice>
+				<xsd:sequence>
+					<xsd:element name="String" type="xsd:string"/>
+					<xsd:element name="EngineeringUnits" type="am:strAnyChar0_128"/>
+				</xsd:sequence>
+				<xsd:sequence>
+					<xsd:element name="Real" type="xsd:float"/>
+					<xsd:element name="High" type="xsd:float"/>
+					<xsd:element name="Low" type="xsd:float"/>
+					<xsd:element name="EngineeringUnits" type="am:strAnyChar0_128"/>
+					<xsd:element name="Scale" type="xsd:boolean"/>
+				</xsd:sequence>
+				<xsd:sequence>
+					<xsd:element name="Integer" type="xsd:integer"/>
+					<xsd:element name="High" type="xsd:integer"/>
+					<xsd:element name="Low" type="xsd:integer"/>
+					<xsd:element name="EngineeringUnits" type="am:strAnyChar0_128"/>
+					<xsd:element name="Scale" type="xsd:boolean"/>
+				</xsd:sequence>
+				<xsd:sequence>
+					<xsd:element name="EnumerationSet" type="am:strEnumerationSetName"/>
+					<xsd:element name="EnumerationMember" type="am:strStdName1_128"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Report">
+		<xsd:annotation>
+			<xsd:documentation>Report belonging to the procedure</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="strAnyChar2_1024"/>
+			<xsd:choice>
+				<xsd:sequence>
+					<xsd:element name="String" type="xsd:string"/>
+					<xsd:element name="EngineeringUnits" type="am:strAnyChar0_128"/>
+				</xsd:sequence>
+				<xsd:sequence>
+					<xsd:element name="Real" type="xsd:float"/>
+					<xsd:element name="EngineeringUnits" type="am:strAnyChar0_128"/>
+				</xsd:sequence>
+				<xsd:sequence>
+					<xsd:element name="Integer" type="xsd:integer"/>
+					<xsd:element name="EngineeringUnits" type="am:strAnyChar0_128"/>
+				</xsd:sequence>
+				<xsd:sequence>
+					<xsd:element name="Enumeration" type="xsd:enumeration"/>
+					<xsd:element name="EnumerationSet" type="am:strEnumerationSetName"/>
+				</xsd:sequence>
+			</xsd:choice>
+			<xsd:element name="Source" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PhaseLink">
+		<xsd:annotation>
+			<xsd:documentation>Path name to a phase</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element name="UnitProcedureStepName" type="StepName"/>
+				<xsd:element name="OperationStepName" type="StepName"/>
+				<xsd:element name="PhaseStepName" type="StepName"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element name="OperationStepName" type="StepName"/>
+				<xsd:element name="PhaseStepName" type="StepName"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element name="PhaseStepName" type="StepName"/>
+			</xsd:sequence>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="PhaseLinkGroup">
+		<xsd:annotation>
+			<xsd:documentation>A PhaseLinkGroup is a collection of path names (PhaseLink) to phases. The phases will communicate with each other at run time.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="PhaseLinkGroupName"/>
+			<xsd:element name="PhaseLink" type="PhaseLink" minOccurs="0" maxOccurs="unbounded">
+				<xsd:unique name="UniquePhaseLinkNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each PhaseLink must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/PhaseLink"/>
+					<xsd:field xpath="PhaseStepName"/>
+				</xsd:unique>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RecipeElement">
+		<xsd:annotation>
+			<xsd:documentation>A RecipeElement represents either a Procedure, Unit Procedure, or an Operation.  </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="RecipeElementID" type="RecipeElementID"/>
+			<xsd:element name="Header" type="Header"/>
+			<xsd:element name="Parameter" type="Parameter" minOccurs="0" maxOccurs="unbounded">
+				<xsd:unique name="UniqueParameterNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each Parameter must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/Parameter"/>
+					<xsd:field xpath="Name"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="Steps" type="StepCollection">
+				<xsd:unique name="UniqueStepNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each Step must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/Step"/>
+					<xsd:field xpath="Name"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="PhaseLinkGroup" type="PhaseLinkGroup" minOccurs="0" maxOccurs="unbounded">
+				<xsd:unique name="UniquePhaseLinkGroupNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each PhaseLinkGroup must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/PhaseLinkGroup"/>
+					<xsd:field xpath="Name"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="Transition" type="Transition" minOccurs="0" maxOccurs="unbounded">
+				<xsd:unique name="UniqueTransitionNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each Transition must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/Transition"/>
+					<xsd:field xpath="Name"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="ElementLink" type="ElementLink" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>The StepNames and TransitionNames involved in an ElementLink must refer to existing Step and Transition elements - referential integrity. Doesn't work yet.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:key name="StepNames">
+					<xsd:annotation>
+						<xsd:documentation>Gathers the name of each step</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/parent/Steps/Step"/>
+					<xsd:field xpath="Name"/>
+				</xsd:key>
+				<xsd:key name="TransitionNames">
+					<xsd:annotation>
+						<xsd:documentation>Gathers the name of each Transition</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/parent/Transitions/Transition"/>
+					<xsd:field xpath="Name"/>
+				</xsd:key>
+				<xsd:keyref name="ToStepKeyRef" refer="StepNames">
+					<xsd:annotation>
+						<xsd:documentation>Validates that each ToStep value is the name of a step.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/ElementLink"/>
+					<xsd:field xpath="ToStep"/>
+				</xsd:keyref>
+				<xsd:keyref name="FromStepKeyRef" refer="StepNames">
+					<xsd:annotation>
+						<xsd:documentation>Validates that each FromStep value is the name of a step.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/ElementLink"/>
+					<xsd:field xpath="FromStep"/>
+				</xsd:keyref>
+				<xsd:keyref name="ToTransitionKeyRef" refer="TransitionNames">
+					<xsd:annotation>
+						<xsd:documentation>Validates that each ToTransition value is the name of a step.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/ElementLink"/>
+					<xsd:field xpath="ToTransition"/>
+				</xsd:keyref>
+				<xsd:keyref name="FromTransitionKeyRef" refer="TransitionNames">
+					<xsd:annotation>
+						<xsd:documentation>Validates that each FromTransition value is the name of a step.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/ElementLink"/>
+					<xsd:field xpath="FromTransition"/>
+				</xsd:keyref>
+			</xsd:element>
+			<xsd:element name="UnitRequirement" type="UnitRequirement" maxOccurs="unbounded">
+				<xsd:unique name="UniqueUnitRequirementNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each UnitRequirement must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/UnitRequirement"/>
+					<xsd:field xpath="UnitAlias"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="Comments">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Comment" type="Comment" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="SchemaVersion" type="xsd:integer" use="required" fixed="3530"/>
+	</xsd:complexType>
+	<xsd:complexType name="ReportLimit">
+		<xsd:annotation>
+			<xsd:documentation>ReportLimit defines the acceptable values for a phase's report values.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="am:strReportParameterName"/>
+			<xsd:element name="LowLowLowValue" type="strAnyChar0_255"/>
+			<xsd:element name="LowLowValue" type="strAnyChar0_255"/>
+			<xsd:element name="LowValue" type="strAnyChar0_255"/>
+			<xsd:element name="HighValue" type="strAnyChar0_255"/>
+			<xsd:element name="HighHighValue" type="strAnyChar0_255"/>
+			<xsd:element name="HighHighHighValue" type="strAnyChar0_255"/>
+			<xsd:element name="VerificationLimitCalculation" type="CalculationTypeenum"/>
+			<xsd:element name="TargetParameter" type="strRecipeParameterName"/>
+		</xsd:sequence>
+		<xsd:attribute name="Verification" type="VerificationEnm" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="Step">
+		<xsd:annotation>
+			<xsd:documentation>Step defines the information associated with a step.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="StepName"/>
+			<xsd:element name="StepRecipeID" type="StepRecipeID"/>
+      <xsd:element name="PackedFlags" type="PackedFlags"/>
+      <xsd:element name="UnitAlias" type="UnitAliasName"/>
+			<xsd:element name="FormulaValue" type="FormulaValue" minOccurs="0" maxOccurs="unbounded">
+				<xsd:unique name="UniqueFormulaValueNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each FormulaValue must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/FormulaValue"/>
+					<xsd:field xpath="Name"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="ReportLimit" type="ReportLimit" minOccurs="0" maxOccurs="unbounded">
+				<xsd:unique name="UniqueReportLimitNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each ReportLimit must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/ReportLimit"/>
+					<xsd:field xpath="Name"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="MaterialRequirement" type="MaterialRequirement" minOccurs="0">
+				<xsd:unique name="UniqueMaterialRequirementNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each MaterialRequirement must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/MaterialRequirement"/>
+					<xsd:field xpath="Name"/>
+				</xsd:unique>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="AcquireUnit" type="xsd:boolean" use="required"/>
+		<xsd:attribute name="XPos" type="am:CoordinateType" use="required"/>
+		<xsd:attribute name="YPos" type="am:CoordinateType" use="required"/>
+    <xsd:attribute name="SystemStep" type="xsd:boolean" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="StepCollection">
+		<xsd:annotation>
+			<xsd:documentation>StepCollection defines the collection of Step instances on a recipe.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InitialStep">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Name" type="InitialStepName"/>
+					</xsd:sequence>
+					<xsd:attribute name="XPos" type="am:CoordinateType" use="required"/>
+					<xsd:attribute name="YPos" type="am:CoordinateType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="TerminalStep">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Name" type="TerminalStepName"/>
+					</xsd:sequence>
+					<xsd:attribute name="XPos" type="am:CoordinateType" use="required"/>
+					<xsd:attribute name="YPos" type="am:CoordinateType" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Step" type="Step" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Transition">
+		<xsd:annotation>
+			<xsd:documentation>Transition defines a Transition by its coordinates, name, and conditional expression.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Name" type="TransitionName">
+				<xsd:annotation>
+					<xsd:documentation>The internal name of the transition - referenced by ElementLinks.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ConditionalExpression" type="ConditionalExpression">
+				<xsd:annotation>
+					<xsd:documentation>The boolean expression which when TRUE (not equal to 0) causes the transition to fire.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="XPos" type="am:CoordinateType" use="required"/>
+		<xsd:attribute name="YPos" type="am:CoordinateType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="UnitRequirement">
+		<xsd:annotation>
+			<xsd:documentation>UnitRequirement defines a type of unit required by the recipe</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="UnitAlias" type="UnitAliasName">
+				<xsd:annotation>
+					<xsd:documentation>Alias name for the unit requirement</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ClassInstance" type="am:strStdName1_128">
+				<xsd:annotation>
+					<xsd:documentation>Name of the unit class or instance which identifies this unit requirement.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BindingMethod" type="BindingEnm">
+				<xsd:annotation>
+					<xsd:documentation>Type of binding method used by this unit requirement.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+      <xsd:element name="MaterialBindingMethod" type="MaterialBindingEnm">
+        <xsd:annotation>
+          <xsd:documentation>Type of material binding method used by this unit requirement.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ClassBased" type="xsd:boolean"/>
+			<xsd:element name="DownstreamResource" type="DownstreamResource" minOccurs="0" maxOccurs="unbounded">
+				<xsd:unique name="UniqueDownstreamResourceNameConstraint">
+					<xsd:annotation>
+						<xsd:documentation>The name of each DownstreamResource must be unique in the collection.  This doesn't work yet.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="parent/DownstreamResource"/>
+					<xsd:field xpath="Name"/>
+				</xsd:unique>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Comment">
+	<xsd:sequence>
+			<xsd:element name="Name" type="CommentName"/>
+			<xsd:element name="Association" type="AssociationName"/>
+			<xsd:element name="CommentText" type="strAnyChar2_1024"/>
+		</xsd:sequence>
+		<xsd:attribute name="Left" type="am:CoordinateType" use="required"/>
+		<xsd:attribute name="Top" type="am:CoordinateType" use="required"/>
+		<xsd:attribute name="Right" type="am:CoordinateType" use="required"/>
+		<xsd:attribute name="Bottom" type="am:CoordinateType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ApprovalSteps">
+	<xsd:annotation>
+		<xsd:documentation>The approval steps associated with the recipe.</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="ApprovalStep" type="ApprovalStep" minOccurs="3" maxOccurs="6"/>	
+</xsd:complexType>
+<xsd:complexType name="Signoff">
+		<xsd:sequence>
+			<xsd:element name="Index" type="am:SignoffRangeType"/>
+			<xsd:element name="Name" type="am:strAnyChar0_80"/>
+			<xsd:element name="SignoffApprover" type="am:strAnyChar0_128"/>			
+			<xsd:element name="DateTime" type="am:strAnyChar0_20"/>
+			<xsd:element name="Comment" type="strAnyChar2_1024"/>
+			<xsd:element name="CommentType" type="am:enumSignoffCommentType"/>
+			<xsd:element name="LastSignoff" type="xsd:boolean"/>
+			<xsd:element name="Permission" type="am:SignoffPermission" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+<xsd:complexType name="SignatureTemplate">
+		<xsd:sequence>
+			<xsd:element name="Name" type="am:strSignatureTemplateNameType"/>
+			<xsd:element name="IsRevertTemplate" type="xsd:boolean"/>
+			<xsd:element name="Signoff" type="Signoff" maxOccurs="3"/>
+		</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ApprovalStep">
+  <xsd:annotation>
+		  <xsd:documentation>The information on a single approval step associated with the recipe. The schema for the signature template and signoffs and signoff permission are defined in the area model schema.</xsd:documentation>
+	</xsd:annotation>
+	<xsd:sequence>
+		<xsd:element name="Name" type="am:strAnyChar0_50"/>
+		<xsd:element name="StepID" type="xsd:long"/>
+		<xsd:element name="StepOrder" type="xsd:long"/>
+		<xsd:element name="SignatureTemplate" type="SignatureTemplate"/>
+		<xsd:element name="SignatureTemplate" type="SignatureTemplate"/>
+		<xsd:element name="Description" type="am:strAnyChar0_128"/>
+	</xsd:sequence>
+  </xsd:complexType>
+	<xsd:element name="RecipeElement" type="RecipeElement">	
+		<xsd:annotation>
+			<xsd:documentation>This is the root element of the schema.  A RecipeElement represents a Procedure, Unit Procedure, or an Operation.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

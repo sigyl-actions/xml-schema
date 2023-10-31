@@ -27872,7 +27872,7 @@ async function run() {
     const regex = new RegExp(
       core.getInput('regex') || '.',
     )
-    const directory = core.getInput('path') || '.'
+    const directory = core.getInput('folder') || '.'
     
     fs.readFile(
       core.getInput('xsd'),

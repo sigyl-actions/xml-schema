@@ -27869,7 +27869,8 @@ const xsdValidator = __nccwpck_require__(4397);
 
 async function run() {
   try {
-    console.log(__dirname)
+    console.log(__dirname);
+    console.log(core.getInput('schema_path'));
     const regex = new RegExp(
       core.getInput('regex') || '^.+\.(([xX][mM][lL]))$' || 0,
     )

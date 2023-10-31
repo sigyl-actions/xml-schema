@@ -27937,6 +27937,7 @@ async function run() {
                     filePath,
                   })
                 } catch(ex) {
+                  console.log(ex.message);
                   throw new Error(
                     `error parsing xml or xsd for ${filePath} ${JSON.stringify(ex)}`,
                   )
@@ -27951,6 +27952,7 @@ async function run() {
                 filePath,
                 result,
               }) => {
+                console.log({ filePath, result });
                 if (result !== true) {
                   core.setFailed(`${filePath} failed validation: ${JSON.stringify(result)}`);
                 }

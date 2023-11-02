@@ -3898,8 +3898,7 @@ var XMLDocument = (function (_super) {
             }
             var schema = (0, functions_1.xmlSchemaParse)(parser_ctxt);
             if (schema === null) {
-                console.log(parser_ctxt)
-                throw new Error("Invalid XSD schema!");
+                throw new Error("Invalid XSD schema");
             }
             var valid_ctxt = (0, functions_1.xmlSchemaNewValidCtxt)(schema);
             if (valid_ctxt === null) {
@@ -4906,12 +4905,9 @@ var flagsToInt = function (array) {
 };
 var parseXml = function (buffer, options) {
     if (options === void 0) { options = types_1.DEFAULT_XML_PARSE_OPTIONS; }
-    console.log('here it is')
-    console.log(options)
     return (0, functions_1.withStructuredErrors)(function (structuredErrors) {
         var _docRef = (0, functions_1.xmlReadMemory)(buffer, typeof buffer === "string" ? Buffer.byteLength(buffer) : buffer.length, options.baseUrl || types_1.DEFAULT_XML_PARSE_OPTIONS.baseUrl || "", options.encoding || (typeof buffer === "string" ? "UTF-8" : null), xmlOptionsToFlags(options));
         if (!_docRef) {
-            console.log(' no doc ref')
             var error = (0, functions_1.xmlGetLastError)();
             if (error) {
                 throw new types_1.XMLStructuredError({
@@ -27584,7 +27580,6 @@ const libxmljs_1 = __nccwpck_require__(1774);
 function validateSchema(xml, xsdSchema, xmlParserOptions, xsdParserOptions) {
     const parsedXML = (0, libxmljs_1.parseXml)(xml.toString(), xmlParserOptions), parsedSchema = (0, libxmljs_1.parseXml)(xsdSchema.toString(), xsdParserOptions);
     // @ts-ignore
-    console.log('it did do this', xsdParserOptions, parsedXML.validationErrors, parsedSchema.validationErrors)
     return parsedXML.validate(parsedSchema) || parsedXML.validationErrors;
 }
 exports["default"] = validateSchema;

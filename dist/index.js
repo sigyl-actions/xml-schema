@@ -27947,16 +27947,16 @@ async function run() {
               },
             ),
         )
-      )
-      .then(
-        (results) => {
-          core.setOutput('result', JSON.stringify(results))
-          if (results.find(({ result }) => result !== true)) {
-            core.setOutput("error", true);
-          } else {
-            core.setOutput("error", false);
-          }
-        },
+        .then(
+          (results) => {
+            core.setOutput('result', JSON.stringify(results))
+            if (results.find(({ result }) => result !== true)) {
+              core.setOutput("error", true);
+            } else {
+              core.setOutput("error", false);
+            }
+          },
+        )
       )
     )
     .catch(

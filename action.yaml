@@ -16,7 +16,9 @@ inputs:
     description: path to xsd schema
 outputs:
   error:
-    description: any error text
+    description: true if error
+  results:
+    description: results
 runs:
   using: 'node20'
   main: 'dist/index.js'

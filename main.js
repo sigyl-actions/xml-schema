@@ -71,27 +71,24 @@ async function run() {
                     filePath,
                   })
                 } catch(ex) {
-                  console.log(ex.message);
-                  throw new Error(
-                    `error parsing xml or xsd for ${filePath} ${JSON.stringify(ex)}`,
-                  )
+                  return ({
+                    result: false,
+                    error: ex.message,
+                    filePath,
+                  })
                 }
               },
             ),
         )
         .then(
-          (results) => results
-            .forEach(
-              ({
-                filePath,
-                result,
-              }) => {
-                if (result !== true) {
-                  core.setOutput('error', JSON.stringify({ filePath, result }, null, 2));          
-                  // core.setFailed(`${filePath} failed validation: ${JSON.stringify(result)}`);
-                }
-              }
-            )
+          (results) => {
+            core.setOutput('result', JSON.stringify(results))
+            if (results.find(({ result }) => result !== true)) {
+              core.setOutput("error", true);
+            } else {
+              core.setOutput("error", false);
+            }
+          },
         )
       )
     )

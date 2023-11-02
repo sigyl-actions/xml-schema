@@ -7,8 +7,6 @@ const xsdValidator = require('xsd-validator');
 
 async function run() {
   try {
-    console.log(__dirname);
-    console.log(core.getInput('schema_path'));
     process.chdir(core.getInput('schema_path'));
     const regex = new RegExp(
       core.getInput('regex') || '.',
@@ -38,9 +36,6 @@ async function run() {
           )
       )
       .then(
-        (files) => console.log(files) || files,
-      )
-      .then(
         (files) => Promise.all(
           files.filter(
             (file) => file.match(regex)
@@ -49,8 +44,6 @@ async function run() {
               directory,
               file,
             ),
-          ).map(
-            (filePath) => console.log(filePath) || filePath,
           )
           .map(
             (filePath) => fs.readFile(
@@ -93,7 +86,6 @@ async function run() {
                 filePath,
                 result,
               }) => {
-                console.log({ filePath, result });
                 if (result !== true) {
                   core.setOutput('error', JSON.stringify({ filePath, result }));          
                   // core.setFailed(`${filePath} failed validation: ${JSON.stringify(result)}`);
@@ -111,6 +103,7 @@ async function run() {
     );
   }
   catch (error) {
+    console.error(error.message)
     core.setFailed(error.message);
   }
 }

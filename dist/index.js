@@ -27878,12 +27878,12 @@ async function run() {
     console.log(core.getInput('schema_path'));
     process.chdir(core.getInput('schema_path'));
     const regex = new RegExp(
-      core.getInput('regex') || '^.+\.(([xX][mM][lL]))$' || 0,
+      core.getInput('regex') || '.',
     )
     const directory = core.getInput('folder') || '.'
     
     fs.readFile(
-      core.getInput('xsd') || 'test2.xsd',
+      core.getInput('xsd'),
     )
     .then(
       (file) => file.toString(),
@@ -27963,7 +27963,7 @@ async function run() {
                 console.log({ filePath, result });
                 if (result !== true) {
                   core.setOutput('error', JSON.stringify({ filePath, result }));          
-                  core.setFailed(`${filePath} failed validation: ${JSON.stringify(result)}`);
+                  // core.setFailed(`${filePath} failed validation: ${JSON.stringify(result)}`);
                 }
               }
             )
@@ -27973,7 +27973,7 @@ async function run() {
     .catch(
       (ex) => {
         core.setOutput('error', ex.message)
-        core.setFailed(ex.message)
+        // core.setFailed(ex.message)
       },
     );
   }

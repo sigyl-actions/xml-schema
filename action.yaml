@@ -14,6 +14,9 @@ inputs:
     description: regex to match eg "^.+\.(([xX][mM][lL]))$"
   xsd:
     description: path to xsd schema
+outputs:
+  error:
+    description: any error text
 runs:
   using: 'node20'
   main: 'dist/index.js'

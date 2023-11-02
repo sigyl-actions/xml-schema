@@ -104,6 +104,7 @@ async function run() {
     )
     .catch(
       (ex) => {
+        core.setOutput('error', ex.message)
         core.setFailed(ex.message)
       },
     );

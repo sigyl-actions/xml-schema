@@ -95,6 +95,7 @@ async function run() {
               }) => {
                 console.log({ filePath, result });
                 if (result !== true) {
+                  core.setOutput('error', JSON.stringify({ filePath, result }));          
                   core.setFailed(`${filePath} failed validation: ${JSON.stringify(result)}`);
                 }
               }
